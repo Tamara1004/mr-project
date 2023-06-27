@@ -16,9 +16,16 @@
             <ion-card-title>
               {{ image.title }}
             </ion-card-title>
+            <p>{{ image.description }}</p>
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <!-- Button to trigger file selection -->
+  <div class="upload-button">
+    <ion-button (click)="fileInput.click()">Add Picture</ion-button>
+    <input type="file" accept="image/*" (change)="handleFileInput($event)" #fileInput style="display: none">
+  </div>
 </ion-content>
