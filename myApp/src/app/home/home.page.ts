@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  galleryImages: { url: string; title: string; description: string }[];
+  galleryImages: { url: string; title: string; description: string; liked: boolean }[];
 
   constructor() {
     const savedImages = localStorage.getItem('galleryImages');
@@ -19,33 +19,38 @@ export class HomePage {
           url: 'assets/img/slika1.jpg',
           title: 'Image 1',
           description: 'Ovo je prva slika',
+          liked: false,
         },
         {
           url: 'assets/img/slika2.jpg',
           title: 'Image 2',
           description: 'Ovo je druga slika',
+          liked: false,
         },
         {
           url: 'assets/img/slika3.jpg',
           title: 'Image 3',
           description: 'Ovo je treca slika',
+          liked: false,
         },
         {
           url: 'assets/img/slika4.jpg',
           title: 'Image 4',
           description: 'Ovo je cetvrta slika',
+          liked: false,
         },
         {
           url: 'assets/img/slika5.jpg',
           title: 'Image 5',
           description: 'Ovo je peta slika',
+          liked: false,
         },
       ];
     }
   }
 
   addPicture(url: string, title: string, description: string) {
-    this.galleryImages.push({ url, title, description });
+    this.galleryImages.push({ url, title, description, liked: false });
     this.updateLocalStorage();
   }
 
@@ -69,6 +74,10 @@ export class HomePage {
     }
   }
 
+  toggleLike(index: number) {
+    this.galleryImages[index].liked = !this.galleryImages[index].liked;
+    this.updateLocalStorage();
+  }
 
   updateLocalStorage() {
     localStorage.setItem('galleryImages', JSON.stringify(this.galleryImages));

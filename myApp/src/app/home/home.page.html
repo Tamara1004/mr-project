@@ -17,8 +17,13 @@
             </ion-card-title>
             <p>{{ image.description }}</p>
           </ion-card-content>
-          <ion-button (click)="updatePicture(i)">Update</ion-button>
-          <ion-button color="danger" (click)="deletePicture(i)">Delete</ion-button>
+          <ion-row class="button-row">
+            <ion-button (click)="updatePicture(i)">Update</ion-button>
+            <ion-button color="danger" (click)="deletePicture(i)">Delete</ion-button>
+            <button class="like-button" [ngClass]="{ liked: image.liked }" (click)="toggleLike(i)">
+              <ion-icon name="heart"></ion-icon>
+            </button>
+          </ion-row>
         </ion-card>
       </ion-col>
     </ion-row>
