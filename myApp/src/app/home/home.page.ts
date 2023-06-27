@@ -62,6 +62,14 @@ export class HomePage {
     this.updateLocalStorage();
   }
 
+  deletePicture(index: number) {
+    if (confirm('Are you sure you want to delete this picture?')) {
+      this.galleryImages.splice(index, 1);
+      this.updateLocalStorage();
+    }
+  }
+
+
   updateLocalStorage() {
     localStorage.setItem('galleryImages', JSON.stringify(this.galleryImages));
   }
