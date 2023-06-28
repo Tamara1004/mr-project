@@ -23,12 +23,17 @@ export class LikedPicturesComponent implements OnInit {
 
   removePicture(index: number) {
     if (confirm('Are you sure you want to remove this picture?')) {
-      this.galleryImages.splice(index, 1);
+      const removedImage = this.likedImages.splice(index, 1)[0];
+      //Nadji indeks slike koju smo removali sa stranice
+      const galleryIndex = this.galleryImages.findIndex(image => image.url === removedImage.url);
+      if (galleryIndex !== -1) {
+        this.galleryImages[galleryIndex].liked = false; // Setuj like dugme na false
+      }
+  
       this.updateLocalStorage();
-      this.updateLikedImages();
     }
   }
-
+  
   updateLocalStorage() {
     localStorage.setItem('galleryImages', JSON.stringify(this.galleryImages));
   }
