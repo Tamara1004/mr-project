@@ -9,7 +9,7 @@
   <ion-content>
     <ion-grid>
       <ion-row>
-        <ion-col size="6" *ngFor="let image of likedImages">
+        <ion-col size="6" *ngFor="let image of likedImages; let i = index">
           <ion-card>
             <ion-img [src]="image.url"></ion-img>
             <ion-card-content>
@@ -18,6 +18,12 @@
               </ion-card-title>
               <p>{{ image.description }}</p>
             </ion-card-content>
+            <ion-row class="button-row">
+              <button class="like-button" [ngClass]="{ liked: image.liked }" (click)="toggleLike(i)">
+                <ion-icon name="heart"></ion-icon>
+              </button>
+              <button class="remove-button" (click)="removePicture(i)">Remove</button>
+            </ion-row>
           </ion-card>
         </ion-col>
       </ion-row>

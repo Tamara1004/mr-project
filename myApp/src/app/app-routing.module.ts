@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { LikedPicturesComponent } from './liked-pictures/liked-pictures.component';
 
 const routes: Routes = [
   {
@@ -19,15 +20,15 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule),
   },
-  {
-    path: 'register',
-    loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule),
+  { path: 'liked-pictures', 
+    component: LikedPicturesComponent 
   },
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+    RouterModule.forRoot(routes),
   ],
   exports: [RouterModule],
 })

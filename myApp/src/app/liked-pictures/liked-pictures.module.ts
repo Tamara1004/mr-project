@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular'; // Import IonicModule
-import { LikedPicturesComponent } from './liked-pictures.component';
+import { IonicModule } from '@ionic/angular';
 import { RouterModule, Routes } from '@angular/router';
+
+import { LikedPicturesComponent } from './liked-pictures.component';
 
 const routes: Routes = [
   { path: '', component: LikedPicturesComponent },
@@ -12,8 +13,8 @@ const routes: Routes = [
   declarations: [LikedPicturesComponent],
   imports: [
     CommonModule,
-    IonicModule, // Add IonicModule to imports
-    RouterModule.forChild(routes)
+    IonicModule, // Add IonicModule here
+    RouterModule.forChild(routes),
   ],
 })
-export class LikedPicturesModule { }
+export class LikedPicturesModule {}

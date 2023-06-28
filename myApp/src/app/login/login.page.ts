@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavController, AlertController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-login',
@@ -10,14 +11,32 @@ export class LoginPage {
   email: string='';
   password: string='';
 
-  constructor(private router: Router) {}
+  constructor(private navCtrl: NavController, private alertController: AlertController) {}
 
- login() {
-    // Ovde možete dodati logiku za prijavu korisnika
-    // Na primer, možete koristiti AuthService za proveru korisničkih podataka i autentifikaciju
-    // ili poslati HTTP zahtev ka serveru za proveru i autentifikaciju korisnika
+  login() {
+    const emailRegex = /\S+@\S+\.\S+/;
+    if (!emailRegex.test(this.email)) {
+      this.presentAlert('Invalid Email', 'Please enter a valid email address.');
+      return;
+    }
 
-    // Nakon uspešne prijave, možete preusmeriti korisnika na drugu stranicu
-    this.router.navigate(['/home']);
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{6,}$/;
+    if (!passwordRegex.test(this.password)) {
+      this.presentAlert(
+        'Invalid Password',
+        'Please enter a password with at least 6 characters, one uppercase letter, and one digit.'
+      );
+      return;
+    }
+  this.navCtrl.navigateForward('/home');
+  }
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: message,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
   }
 }
