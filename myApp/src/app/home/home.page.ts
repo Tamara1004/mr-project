@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { NavController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-home',
@@ -8,7 +10,7 @@ import { Component } from '@angular/core';
 export class HomePage {
   galleryImages: { url: string; title: string; description: string; liked: boolean }[];
 
-  constructor() {
+  constructor(private navCtrl: NavController) {
     const savedImages = localStorage.getItem('galleryImages');
 
     if (savedImages) {
@@ -101,4 +103,10 @@ export class HomePage {
       reader.readAsDataURL(file);
     }
   }
+
+  handleButtonClick() {
+    this.navCtrl.navigateForward('/liked-pictures');
+  }
+  
+
 }

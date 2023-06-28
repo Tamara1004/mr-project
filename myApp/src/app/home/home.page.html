@@ -3,6 +3,9 @@
     <ion-title>
       Gallery App
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="handleButtonClick()">Liked Pictures</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -29,7 +32,6 @@
     </ion-row>
   </ion-grid>
 
-  <!-- Button to trigger file selection -->
   <div class="upload-button">
     <ion-button (click)="fileInput.click()">Add Picture</ion-button>
     <input type="file" accept="image/*" (change)="handleFileInput($event)" #fileInput style="display: none">
