@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController } from '@ionic/angular';
-import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -37,6 +38,7 @@ export class LoginPage {
     this.navCtrl.navigateForward('/home');
   }
             
+            
   async presentAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header: header,
@@ -46,4 +48,11 @@ export class LoginPage {
 
     await alert.present();
   }
+
+
+  getAllUsers(): Observable<any[]> {
+    const userListRef: AngularFireList<any> = this.afDatabase.list('users');
+    return userListRef.valueChanges();
+  }
+  
 }

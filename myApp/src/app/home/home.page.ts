@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 
 
 @Component({
@@ -8,54 +9,30 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  galleryImages: { url: string; title: string; description: string; liked: boolean }[];
+  galleryImages: { url: string; title: string; description: string; liked: boolean }[] = [];
 
-  constructor(private navCtrl: NavController) {
-    const savedImages = localStorage.getItem('galleryImages');
-
-    if (savedImages) {
-      this.galleryImages = JSON.parse(savedImages);
-    } else {
-      this.galleryImages = [
-        {
-          url: 'assets/img/slika1.jpg',
-          title: 'Image 1',
-          description: 'Ovo je prva slika',
-          liked: false,
-        },
-        {
-          url: 'assets/img/slika2.jpg',
-          title: 'Image 2',
-          description: 'Ovo je druga slika',
-          liked: false,
-        },
-        {
-          url: 'assets/img/slika3.jpg',
-          title: 'Image 3',
-          description: 'Ovo je treca slika',
-          liked: false,
-        },
-        {
-          url: 'assets/img/slika4.jpg',
-          title: 'Image 4',
-          description: 'Ovo je cetvrta slika',
-          liked: false,
-        },
-        {
-          url: 'assets/img/slika5.jpg',
-          title: 'Image 5',
-          description: 'Ovo je peta slika',
-          liked: false,
-        },
-      ];
-    }
+  constructor(private navCtrl: NavController, private afDatabase: AngularFireDatabase) {
+    // Retrieve gallery images from the database
+    this.afDatabase
+      .list('pictures')
+      .valueChanges()
+      .subscribe((images: any[]) => {
+        this.galleryImages = images;
+      });
   }
 
   addPicture(url: string, title: string, description: string) {
-    this.galleryImages.push({ url, title, description, liked: false });
-    this.updateLocalStorage();
-  }
+    // Create a new picture object
+    const picture = {
+      url: url,
+      title: title,
+      description: description,
+      liked: false,
+    };
 
+    // Push the picture to the Firebase Realtime Database
+    this.afDatabase.list('pictures').push(picture);
+  }
   updatePicture(index: number) {
     const newTitle = prompt('Enter the new title:', this.galleryImages[index].title);
     const newDescription = prompt('Enter the new description:', this.galleryImages[index].description);

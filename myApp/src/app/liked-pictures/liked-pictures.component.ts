@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 
 @Component({
   selector: 'app-liked-pictures',
@@ -9,17 +10,23 @@ export class LikedPicturesComponent implements OnInit {
   galleryImages: { url: string; title: string; description: string; liked: boolean }[];
   likedImages!: { url: string; title: string; description: string; liked: boolean }[];
 
-  constructor() {
+  constructor(private afDatabase: AngularFireDatabase) {
     const savedImages = localStorage.getItem('galleryImages');
     this.galleryImages = savedImages ? JSON.parse(savedImages) : [];
     this.updateLikedImages();
   }
 
   toggleLike(index: number) {
-    this.galleryImages[index].liked = !this.galleryImages[index].liked;
+    const likedImage = this.galleryImages[index];
+    likedImage.liked = !likedImage.liked;
+  
+    // Update the like status in Firebase
+    this.afDatabase.object(`pictures/${index}/liked`).set(likedImage.liked);
+  
     this.updateLocalStorage();
     this.updateLikedImages();
   }
+  
 
   removePicture(index: number) {
     if (confirm('Are you sure you want to remove this picture?')) {
